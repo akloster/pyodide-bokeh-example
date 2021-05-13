@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script src="http://localhost:8000/pyodide/pyodide.js"></script>
+      <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js" integrity="sha384-YF85VygJKMVnHE+lLv2AM93Vbstr0yo2TbIu5v8se5Rq3UQAUmcuh4aaJwNlpKwa" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.1.min.js" integrity="sha384-KKuas3gevv3PvrlkyCMzffFeaMq5we/a2QsP5AUoS3mJ0jmaCL7jirFJN3GoE/lM" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.1.min.js" integrity="sha384-MK/uFc3YT18pkvvXRl66tTHjP0/dxoSH2e/eiNMFIguKlun2+WVqaPTWmUy/zvh4" crossorigin="anonymous"></script>
+      <script type="text/javascript">
+    Bokeh.set_log_level("info");
+      </script>
+  </head>
+  <body>
+    <div id="container">
+      This may take a while...
+    </div>
+  </body>
+    <script type="text/javascript">
+      async function main(){
+        await loadPyodide({
+          indexURL : "http://localhost:8000/pyodide/"
+        });
+        await pyodide.loadPackage(['numpy',
+              'bokeh',
+              'pyyaml',
+              'python-dateutil',
+              'six',
+              'typing_extensions'
+              ]);
+        
+        let script = await (await fetch("static/main.py")).text();
+        pyodide.runPython(script);
+      }
+      main();
+    </script>
+</html>
+
